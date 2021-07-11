@@ -3,7 +3,7 @@ import {
     View,
     Text,
     TouchableOpacity,
-    ScrollView,
+    StatusBar,
     TouchableWithoutFeedback,
     Keyboard
 } from "react-native"
@@ -60,61 +60,68 @@ export function Login() {
  
 
     return(
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-            <ContainerCredentials 
-                title={`Bem vindo de volta\nestávamos esperando você`}
-                navigation={handleLogin}
-                loading={false}
-                isDisabled={!loginReady}
-                textButton={"Login"}
-            >
-                <View style={styles.form}>
-                    <Input 
-                        placeholder="Coloque seu e-mail"
-                        autoCorrect={false}
-                        autoCapitalize="none"
-                        autoCompleteType="email"
-                        textContentType="emailAddress"
-                        icon={0}
-                        onChangeText={onChangeTextEmail}
-                        value={email}
-                    />
+        <>
+        <StatusBar 
+             translucent
+             barStyle="light-content"
+             backgroundColor="transparent"
+        />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <ContainerCredentials 
+                    title={`Bem vindo de volta\nestávamos esperando você`}
+                    navigation={handleLogin}
+                    loading={false}
+                    isDisabled={!loginReady}
+                    textButton={"Login"}
+                >
+                    <View style={styles.form}>
+                        <Input 
+                            placeholder="Coloque seu e-mail"
+                            autoCorrect={false}
+                            autoCapitalize="none"
+                            autoCompleteType="email"
+                            textContentType="emailAddress"
+                            icon={0}
+                            onChangeText={onChangeTextEmail}
+                            value={email}
+                        />
 
-                    <Input 
-                        placeholder="Coloque sua senha"
-                        autoCapitalize="none"
-                        textContentType="password"
-                        secureTextEntry={showPassword}
-                        icon={0}
-                        isPassword
-                        showPassword={() => setShowPassword(!showPassword)}
-                        isShow={showPassword}
-                        onChangeText={onChangeTextPassword}
-                        value={password}
-                        isMargin
-                    />
+                        <Input 
+                            placeholder="Coloque sua senha"
+                            autoCapitalize="none"
+                            textContentType="password"
+                            secureTextEntry={showPassword}
+                            icon={0}
+                            isPassword
+                            showPassword={() => setShowPassword(!showPassword)}
+                            isShow={showPassword}
+                            onChangeText={onChangeTextPassword}
+                            value={password}
+                            isMargin
+                        />
 
-                    <TouchableOpacity
-                        activeOpacity={.7}
-                        onPress={handleForgotPassword}
-                    >
-                        <Text style={styles.forgotPassword}>Esqueceu sua senha?</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={.7}
+                            onPress={handleForgotPassword}
+                        >
+                            <Text style={styles.forgotPassword}>Esqueceu sua senha?</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ContainerCredentials>
+
+                {error &&
+                    <View>
+                        <Text style={styles.textError}>Credenciais incorretas</Text>
+                    </View>
+                }
+                
+                <View style={styles.footer}>
+                    <FooterMiniLogo />
                 </View>
-            </ContainerCredentials>
-
-            {error &&
-                <View>
-                    <Text style={styles.textError}>Credenciais incorretas</Text>
-                </View>
-            }
-            
-            <View style={styles.footer}>
-                <FooterMiniLogo />
             </View>
-        </View>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+        </>
     )
 };
 

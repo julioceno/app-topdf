@@ -3,7 +3,8 @@ import {
     View,
     Text,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    StatusBar
 } from "react-native"
 import { ScaledSheet } from "react-native-size-matters";
 import { useNavigation } from '@react-navigation/core';
@@ -36,40 +37,47 @@ export function CreateEmail() {
     };
 
     return(
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-            <ContainerCredentials 
-                title={`Que bom ter você aqui \ncrie sua conta`}
-                navigation={handleNext}
-                loading={false}
-                isDisabled={!createAccountReady}
-                textButton={"Próximo"}
-            >
-                <View style={styles.form}>
-                    <Input 
-                        placeholder="Coloque seu e-mail"
-                        autoCorrect={false}
-                        autoCapitalize="none"
-                        autoCompleteType="email"
-                        textContentType="emailAddress"
-                        icon={0}
-                        onChangeText={onChangeTextEmail}
-                        value={email}
-                    />
-                </View>
-            </ContainerCredentials>
+        <>
+        <StatusBar 
+             translucent
+             barStyle="light-content"
+             backgroundColor="transparent"
+        />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <ContainerCredentials 
+                    title={`Que bom ter você aqui \ncrie sua conta`}
+                    navigation={handleNext}
+                    loading={false}
+                    isDisabled={!createAccountReady}
+                    textButton={"Próximo"}
+                >
+                    <View style={styles.form}>
+                        <Input 
+                            placeholder="Coloque seu e-mail"
+                            autoCorrect={false}
+                            autoCapitalize="none"
+                            autoCompleteType="email"
+                            textContentType="emailAddress"
+                            icon={0}
+                            onChangeText={onChangeTextEmail}
+                            value={email}
+                        />
+                    </View>
+                </ContainerCredentials>
 
-            {error &&
-                <View>
-                    <Text style={styles.textError}>Este e-mail já está em uso ou ele é inválido</Text>
+                {error &&
+                    <View>
+                        <Text style={styles.textError}>Este e-mail já está em uso ou ele é inválido</Text>
+                    </View>
+                }
+                
+                <View style={styles.footer}>
+                    <FooterMiniLogo />
                 </View>
-            }
-            
-            <View style={styles.footer}>
-                <FooterMiniLogo />
             </View>
-        </View>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+        </>
     )
 };
 

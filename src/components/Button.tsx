@@ -11,14 +11,13 @@ import { theme } from "../global/styles/theme";
 
 interface ButtonProps extends RectButtonProps { 
     title: string;        
-    isDisabled?: boolean;
     loading?: boolean;                                                                                  
 };                                                   
 
-export function Button({ title, isDisabled = false, loading = false, ...rest }:ButtonProps) {
+export function Button({ title, loading = false, ...rest }:ButtonProps) {
     return (
         <RectButton 
-            style={[styles.container, isDisabled && { backgroundColor: theme.colors.gray}]}
+            style={styles.container}
             {...rest}
         >
             { loading && 
