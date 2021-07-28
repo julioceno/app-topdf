@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     TouchableOpacity,
     Text, 
     View,
     Animated,
-    Image
+    Image,
+    Alert
 } from "react-native"
 import { Feather } from "@expo/vector-icons";
 import { ScaledSheet } from "react-native-size-matters";
 import { RectButton, RectButtonProps} from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-
+import * as FileSystem from 'expo-file-system';
 
 import { theme } from "../global/styles/theme"
 import pdfIcon from "../assets/pdf.png"
@@ -24,7 +25,27 @@ interface PlantProps extends RectButtonProps {
     handleRemove: () => void;
 }
 
-export const PdfCard = ({data, handleRemove, ...rest} : PlantProps) => {
+
+
+export function PdfCard({data, handleRemove, ...rest} : PlantProps) {
+    const [pdfUrl, setPdfUrl] = useState("../assets/example.pdf")
+    const [progressValue, setProgressValue] = useState(0);
+    const [downloadConcluded, setDownloadConcluded] = useState<boolean>(false);
+    const [errorDownload, setErrorDownload] = useState<boolean>(false);
+    
+    async function handleDownloadPdf(name: string) {
+        const date = new Date;
+        
+        try {
+            const { uri: localUri } = await FileSystem.downloadAsync("../assets/example.pdf", FileSystem.documentDirectory + name + ".pdf");
+
+        } catch(err) {
+            console.log(err)
+        } 
+      
+       
+    };
+
     return(
         <Swipeable
             overshootRight={false}
@@ -45,6 +66,7 @@ export const PdfCard = ({data, handleRemove, ...rest} : PlantProps) => {
             <View 
                 style={styles.container}
             >
+                <Text style={{color: "white"}}>{progressValue}</Text>
                 <Image 
                     source={pdfIcon}
                     style={styles.pdfIcon}
@@ -62,6 +84,7 @@ export const PdfCard = ({data, handleRemove, ...rest} : PlantProps) => {
                 <TouchableOpacity 
                     style={styles.downloadContainer}
                     activeOpacity={.7}
+                    onPress={ () => handleDownloadPdf(data.name)}
                 >
                     <Image 
                         source={pdfDownload}
@@ -70,13 +93,10 @@ export const PdfCard = ({data, handleRemove, ...rest} : PlantProps) => {
                 
                     <Text style={styles.downloadPdfText}>Baixar</Text>
                 </TouchableOpacity>
-        
             </View>
-
-
         </Swipeable>
-    )
-}
+    );
+};
 
 const styles = ScaledSheet.create({
     container: {

@@ -11,25 +11,32 @@ import { theme } from "../global/styles/theme";
 
 interface ButtonProps extends RectButtonProps { 
     title: string;        
-    loading?: boolean;                                                                                  
+    loading?: boolean;    
+    buttonColor?: string;                                                                          
 };                                                   
 
-export function Button({ title, loading = false, ...rest }:ButtonProps) {
+export function Button({ title, loading = false, buttonColor = "", ...rest }:ButtonProps) {
     return (
         <RectButton 
-            style={styles.container}
+            style={[
+                styles.container, 
+                !!buttonColor && { backgroundColor: buttonColor }
+            ]}
             {...rest}
         >
-            { loading && 
+            {/* { loading && 
                 <View style={styles.loadingContainer}>
                     <ActivityIndicator size="small" color={theme.colors.white} style={styles.loading}/>
                 </View>
+            } */}
+           { loading? 
+                <ActivityIndicator size="small" color={theme.colors.white} style={styles.loading}/>
+                :<Text 
+                    style={[styles.text]}
+                >
+                    { title }
+                </Text>
             }
-            <Text 
-                style={[styles.text]}
-            >
-                { title }
-            </Text>
         </RectButton>
     )
 }

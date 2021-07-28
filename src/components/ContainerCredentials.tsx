@@ -38,7 +38,6 @@ export function ContainerCredentials({
                     title={textButton}
                     onPress={navigation}
                     loading={loading}
-                    isDisabled={isDisabled}
                     enabled={!isDisabled}
                 />
             </View>

@@ -7,7 +7,6 @@ import {
     Text
 } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
-import { useNavigation } from '@react-navigation/core';
 
 import { theme } from "../global/styles/theme";
 
