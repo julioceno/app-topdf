@@ -19,6 +19,7 @@ interface InputProps extends TextInputProps {
     showPassword?: any;
     isShow?: boolean;
     isMargin?: boolean;
+    inputBackground?: string
 };                                                   
 
 export function Input({
@@ -28,6 +29,7 @@ export function Input({
     showPassword, 
     isShow = false,
     isMargin = false,
+    inputBackground,
     ...rest
 }:InputProps) {
 
@@ -37,7 +39,11 @@ export function Input({
 
     return (
         <View
-            style={[styles.container, isMargin && styles.margin]}
+            style={[
+                styles.container,
+                isMargin && styles.margin, 
+                !!inputBackground && {backgroundColor: inputBackground}
+            ]}
         >
             <Image 
                 source={icons[icon]}

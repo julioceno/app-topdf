@@ -17,14 +17,14 @@ import { FooterMiniLogo } from "../components/FooterMiniLogo"
 import { Input } from "../components/Input"
 
 export function Login() {
-    const navigation = useNavigation();
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [showPassword, setShowPassword] = useState<boolean>(true)
     const [loginReady, setLoginReady] = useState<boolean>(false)
     const [error, setError] = useState<boolean>(false)
-
-
+    
+    const navigation = useNavigation();
+    
     function onChangeTextEmail(text: string) {
         if (!!text && !!password) {
             setLoginReady(true)

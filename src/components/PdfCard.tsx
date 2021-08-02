@@ -5,19 +5,19 @@ import {
     View,
     Animated,
     Image,
-    Alert
+    TouchableOpacityProps
 } from "react-native"
 import { Feather } from "@expo/vector-icons";
 import { ScaledSheet } from "react-native-size-matters";
 import { RectButton, RectButtonProps} from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import * as FileSystem from 'expo-file-system';
+
 
 import { theme } from "../global/styles/theme"
 import pdfIcon from "../assets/pdf.png"
 import pdfDownload from "../assets/pdfDownload.png"
 
-interface PlantProps extends RectButtonProps {
+interface PlantProps extends TouchableOpacityProps {
     data: {
         name: string;
         date: string;
@@ -28,24 +28,6 @@ interface PlantProps extends RectButtonProps {
 
 
 export function PdfCard({data, handleRemove, ...rest} : PlantProps) {
-    const [pdfUrl, setPdfUrl] = useState("../assets/example.pdf")
-    const [progressValue, setProgressValue] = useState(0);
-    const [downloadConcluded, setDownloadConcluded] = useState<boolean>(false);
-    const [errorDownload, setErrorDownload] = useState<boolean>(false);
-    
-    async function handleDownloadPdf(name: string) {
-        const date = new Date;
-        
-        try {
-            const { uri: localUri } = await FileSystem.downloadAsync("../assets/example.pdf", FileSystem.documentDirectory + name + ".pdf");
-
-        } catch(err) {
-            console.log(err)
-        } 
-      
-       
-    };
-
     return(
         <Swipeable
             overshootRight={false}
@@ -66,7 +48,6 @@ export function PdfCard({data, handleRemove, ...rest} : PlantProps) {
             <View 
                 style={styles.container}
             >
-                <Text style={{color: "white"}}>{progressValue}</Text>
                 <Image 
                     source={pdfIcon}
                     style={styles.pdfIcon}
@@ -84,7 +65,8 @@ export function PdfCard({data, handleRemove, ...rest} : PlantProps) {
                 <TouchableOpacity 
                     style={styles.downloadContainer}
                     activeOpacity={.7}
-                    onPress={ () => handleDownloadPdf(data.name)}
+                    {...rest}
+
                 >
                     <Image 
                         source={pdfDownload}

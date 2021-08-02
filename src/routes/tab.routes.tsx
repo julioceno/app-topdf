@@ -5,7 +5,7 @@ import { ScaledSheet } from "react-native-size-matters";
 
 import { DownloadPdf } from "../screens/DownloadPdf";
 import { MorePdf } from "../screens/MorePdf";
-import { Settings } from "../screens/Settings";
+import { SettingRoutes } from "../routes/settings.routes";
 
 const { Navigator, Screen } = createBottomTabNavigator()
 
@@ -74,7 +74,7 @@ const AppRoutes = () => {
 
             <Screen 
                 name="Settings"
-                component={Settings}
+                component={SettingRoutes}
                 options={{
                    tabBarIcon: ({focused}) => (
                        <View style={{alignItems: "center", justifyContent: "center", }}>

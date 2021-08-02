@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     StatusBar,
-    Alert,
+    Modal,
     TouchableOpacity,
     Text,
     TextInput,
@@ -16,10 +16,12 @@ import mime from 'mime';
 import { theme } from "../global/styles/theme"
 import morePdf from "../assets/create-pdf.png"
 
-import mimeTypes from "../config/mime";
+import mimeTypes from "../utils/mime";
 
 import { Header } from "../components/Header";
 import { Button } from "../components/Button";
+import { SimpleModal } from "../components/SimpleModal";
+
 
 interface DocumentProps {
     type: string,
@@ -31,23 +33,28 @@ interface DocumentProps {
 export function MorePdf() {
     const [newNameFile, setNewNameFile] = useState<string>()
     const [file, setFile] = useState<string | null>(null)
+    const [mimeTypeCurrent, setMimeTypeCurrent] = useState<string | null>(null)
     const [fileName, setFileName] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
+    const [isEnabled, setIsEnabled] = useState(false)
+    const [isVisibleMimeInvalid, setIsVisibleMimeInvalid] = useState(false)
+    const [isVisibleError, setIsVisibleMimeError] = useState(false)
 
     async function imagePickerCall() {
         let result = await DocumentPicker.getDocumentAsync({type: "*/*"}) as DocumentProps;
 
         if (result.type === "cancel") {
-            setFile(null)
-            return
-        };
-
-        if ( !mimeTypes.includes(mime.getType(result.uri))) {
-            // popup informando que o mime é inválido
-            alert("...")
+            setFile(null);
+            setIsEnabled(false)
             return;
         };
 
+        if ( !mimeTypes.includes(mime.getType(result.uri))) {
+            setIsVisibleMimeInvalid(true)
+            setIsEnabled(false)
+            return;
+        };
+        
         if (result.name.length > 20) {
             const array = result.name.split("");
             
@@ -59,14 +66,15 @@ export function MorePdf() {
         } else {
             setFileName(result.name)
         };
-
+        
         setFile(result.uri);
+        setIsEnabled(!!file && !!newNameFile? true : false);
     };
 
     function handleGeneratePdf() {
         alert("deu certo")
     };
-
+    
     return (
         <>
             <StatusBar 
@@ -91,7 +99,10 @@ export function MorePdf() {
                     <TextInput 
                         placeholder="Como será o nome do arquivo pdf"
                         placeholderTextColor={theme.colors.white_secondary}
-                        onChangeText={setNewNameFile}
+                        onChangeText={text =>  {
+                            setIsEnabled(!!file && !!newNameFile? true : false);
+                            setNewNameFile(text);
+                        }}
                         value={newNameFile}
                         
                         style={styles.inputText}
@@ -112,11 +123,27 @@ export function MorePdf() {
                         <Button 
                             title="Gerar pdf"
                             onPress={handleGeneratePdf}
-                            // enabled={file === null && false}
+                            enabled={isEnabled}
                             // loading={loading}
                         />
                     </View>
                 </View>
+
+                <SimpleModal 
+                    visible={isVisibleMimeInvalid} 
+                    text={"Não é possível transformar este arquivo em pdf. Só é possível converter imagens e arquivos .docx."}
+                    closePopup={() => {
+                        setIsVisibleMimeInvalid(false)
+                    }}
+                />
+
+                <SimpleModal 
+                    visible={isVisibleError} 
+                    text={`Houve um erro ao converter o arquivo para pdf. Tente novamente, se o erro persistir, tente novamente mais tarde.`}
+                    closePopup={() => {
+                        setIsVisibleMimeError(false)
+                    }}
+                />
             </View>
         </>
     );
@@ -146,7 +173,6 @@ const styles = ScaledSheet.create({
         marginHorizontal: "25@s",
         borderRadius: "10@s",
         paddingLeft: "10@s"
-        
     },
 
     secondarySection: {
