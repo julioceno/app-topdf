@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="PlantManager" title="PlantManager" src=".github/logo.svg" />
+    <img alt="PlantManager" title="PlantManager" src=".github/logo.png" />
 </h1>
 
 <p align="center">
@@ -12,9 +12,9 @@
 <p align="center">
   <img  src="https://img.shields.io/static/v1?label=license&message=MIT&color=FFFFFF&labelColor=121214" alt="License">
   
-  <img src="https://img.shields.io/github/forks/Daniel-Vinicius/PlantManager?label=forks&message=MIT&color=FFFFFF&labelColor=121214" alt="Forks">
+  <img src="https://img.shields.io/github/forks/julioceno/PlantManager?label=forks&message=MIT&color=FFFFFF&labelColor=121214" alt="Forks">
 
-  <img src="https://img.shields.io/github/stars/Daniel-Vinicius/PlantManager?label=stars&message=MIT&color=FFFFFF&labelColor=121214" alt="Stars">
+  <img src="https://img.shields.io/github/stars/julioceno/PlantManager?label=stars&message=MIT&color=FFFFFF&labelColor=121214" alt="Stars">
 </p>
 <br>
 
