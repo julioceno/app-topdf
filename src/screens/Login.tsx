@@ -92,7 +92,7 @@ export function Login() {
                             autoCapitalize="none"
                             textContentType="password"
                             secureTextEntry={showPassword}
-                            icon={0}
+                            icon={1}
                             isPassword
                             showPassword={() => setShowPassword(!showPassword)}
                             isShow={showPassword}

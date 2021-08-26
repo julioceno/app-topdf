@@ -21,8 +21,7 @@ export function DeleteAccount() {
     const [password, setPassword] = useState("")
     const [passwordReady, setPasswordReady] = useState<boolean>(false)
     const [isVisibleDeleteAccount, setIsVisibleDeleteAccount] = useState<boolean>(false)
-
-    const navigation = useNavigation()
+    const [showPassword, setShowPassword] = useState(true)
 
     function handleTextPassword(text: string) {
         if (!!text) {
@@ -54,15 +53,18 @@ export function DeleteAccount() {
                     <Text style={styles.label}> Excluir conta </Text>
 
                         <Input 
-                            icon={0}
-                            inputBackground={theme.colors.black}
-                            placeholder="Coloque sua senha"
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            autoCompleteType="password"
-                            textContentType="password"
-                            onChangeText={handleTextPassword}
-                            value={password}
+                               icon={1}
+                               inputBackground={theme.colors.black}
+                               placeholder="Digite sua senha"
+                               autoCorrect={false}
+                               autoCapitalize="none"
+                               isPassword
+                               showPassword={() => setShowPassword(!showPassword)}
+                               isShow={showPassword}
+                               secureTextEntry={showPassword}
+                               textContentType="password"
+                               onChangeText={handleTextPassword}
+                               value={password}
                         />
 
                         <Text style={styles.alert}>

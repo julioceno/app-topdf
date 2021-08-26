@@ -20,6 +20,8 @@ export function ChangePassword() {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [passwordReady, setPasswordReady] = useState<boolean>(false)
+    const [showPassword, setShowPassword] = useState<boolean>(true)
+    const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(true)
 
     const navigation = useNavigation()
 
@@ -61,10 +63,14 @@ export function ChangePassword() {
                     <View style={styles.section}>
                         <Text style={styles.label}> Alterando Senha </Text>
                             <Input 
-                                icon={0}
+                                icon={1}
                                 inputBackground={theme.colors.black}
                                 placeholder="Sua nova senha"
                                 autoCorrect={false}
+                                isPassword
+                                showPassword={() => setShowPassword(!showPassword)}
+                                isShow={showPassword}
+                                secureTextEntry={showPassword}
                                 autoCapitalize="none"
                                 autoCompleteType="password"
                                 textContentType="password"
@@ -73,10 +79,14 @@ export function ChangePassword() {
                             />
 
                             <Input 
-                                icon={0}
+                                icon={1}
                                 inputBackground={theme.colors.black}
                                 placeholder="Confirme sua nova senha"
                                 autoCorrect={false}
+                                isPassword
+                                showPassword={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                                isShow={showPasswordConfirm}
+                                secureTextEntry={showPasswordConfirm}
                                 autoCapitalize="none"
                                 autoCompleteType="password"
                                 textContentType="password"

@@ -16,6 +16,7 @@ import { FooterMiniLogo } from "../components/FooterMiniLogo"
 
 import viewingPdf from "../assets/viewing-pdf.png"
 import loginAccount from "../assets/login-account.png"
+import createAccount from "../assets/create-account.png"
 
 export function Welcome() {
     const navigation = useNavigation();
@@ -69,7 +70,7 @@ export function Welcome() {
                         onPress={handleCreateAccount}
                     >
                         <Image 
-                            source={loginAccount}
+                            source={createAccount}
                             style={styles.iconButton}
                         />
 

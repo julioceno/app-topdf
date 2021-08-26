@@ -16,30 +16,32 @@ import { theme } from "../global/styles/theme";
 import { Header } from "../components/Header";
 import { PdfCard } from "../components/PdfCard";
 import { SimpleModal } from "../components/SimpleModal";
+import { ModalOptions } from "../components/ModalOptions";
 
 export function DownloadPdf() {
     const [isVisibility, setIsVisibility] = useState(false)
-    const [isVisibilityPopupDownloads, setIsVisibilityPopupDownloads] = useState(false)
     const [firstDownload, setFirstDownload] = useState(false)
+    const [deletePdf, setDeletePdf] = useState(false)
+    const [idPdfDelete, setIdPdfDelete] = useState<number | null>(null)
+
 
     async function handleDownloadPdf(name: string) {
-        const date = new Date;
         const { status } = await MediaLibrary.requestPermissionsAsync();
         if (status !== 'granted') {
             Alert.alert( "Precisamos de sua permissão", "Precisamos de sua permissão para liberar essa funcionalidade");
             return;
         };
         try {
-
                 await FileSystem.downloadAsync(
                     'https://download.inep.gov.br/educacao_basica/encceja/material_estudo/livro_estudante/ciencias_fund.pdf',
-                    FileSystem.documentDirectory + name, 
+                    FileSystem.documentDirectory + name + ".pdf", 
                 )
                 .then(async ({ uri }) => {
                     const asset = await MediaLibrary.createAssetAsync(uri)
-                    await MediaLibrary.createAlbumAsync("ToPdf", asset)
+                    await MediaLibrary.createAlbumAsync("ToPdf", asset, false)
                     .then( () => {
                         // pdf salvado com sucesso
+                        console.log(asset)
                         setFirstDownload(true)
                   }) 
                     .catch( (err: any) => {
@@ -49,6 +51,7 @@ export function DownloadPdf() {
                  
                 })
                 .catch(error => {
+                    console.log(error)
                     setIsVisibility(false)
                 });
           
@@ -57,6 +60,11 @@ export function DownloadPdf() {
             setIsVisibility(false)
         } 
     };
+
+    async function handleDelete() {
+        console.log(idPdfDelete)
+    }
+
 
     return (
         <>
@@ -80,16 +88,17 @@ export function DownloadPdf() {
                                 date: "13/03/2021 as 14:35"
                             }}
                             onPress={() => handleDownloadPdf("Documento de identificação")}
-                            handleRemove={() => alert("remover")}
+                            handleRemove={() => {
+                                setDeletePdf(true)
+                                setIdPdfDelete(item.id)
+                            }}
                         />
                     )}
                     ListFooterComponent={() => (
                         <TouchableOpacity 
                             activeOpacity={.7}
                         >
-                            { firstDownload &&
-                                <Text style={styles.currentDownloads}>Ver downloads</Text>
-                            }
+                            
                         </TouchableOpacity>
                     )}
 
@@ -103,6 +112,25 @@ export function DownloadPdf() {
                         setIsVisibility(false)
                     }}   
                 />
+
+                <SimpleModal 
+                    visible={firstDownload}
+                    text={"Boas notícias, acabamos de efetuar o download!"}
+                    closePopup={() => {
+                        setFirstDownload(false)
+                    }}   
+                />
+
+                <ModalOptions 
+                        title={"Excluir"}
+                        text="Se você excluir este pdf, você não terá mais acesso a ele!"
+                        visible={deletePdf}
+                        closePopup={() => {
+                            setDeletePdf(false)
+                            setIdPdfDelete(null)
+                        }}
+                        confirmPopup={handleDelete}
+                    />
             </View>
         </>
     );

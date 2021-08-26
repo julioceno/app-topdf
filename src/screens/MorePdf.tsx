@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import {
     View,
     StatusBar,
-    Modal,
-    TouchableOpacity,
+    TouchableWithoutFeedback,
     Text,
     TextInput,
-    Image
+    Image,
+    Keyboard
 } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 import { useNavigation } from '@react-navigation/core';
@@ -39,6 +39,7 @@ export function MorePdf() {
     const [isEnabled, setIsEnabled] = useState(false)
     const [isVisibleMimeInvalid, setIsVisibleMimeInvalid] = useState(false)
     const [isVisibleError, setIsVisibleMimeError] = useState(false)
+    const [isVisibleSuccessfull, setIsVisibleSuccessfull] = useState(false)
 
     async function imagePickerCall() {
         let result = await DocumentPicker.getDocumentAsync({type: "*/*"}) as DocumentProps;
@@ -72,7 +73,7 @@ export function MorePdf() {
     };
 
     function handleGeneratePdf() {
-        alert("deu certo")
+        setIsVisibleSuccessfull(true)
     };
     
     return (
@@ -82,77 +83,93 @@ export function MorePdf() {
                 barStyle="light-content"
                 backgroundColor="transparent"
             />
-            <View style={styles.container}>
-                <Header 
-                    title={`Convertendo\nseus problemas`}
-                />
-                
-                <View style={styles.form}>
-                    <View style={styles.buttonChooseFileContainer}>
-                        <Button 
-                            title={ fileName || `Escolher aquivo`}
-                            buttonColor={theme.colors.red_secondary}
-                            onPress={imagePickerCall}
-                        />
-                    </View>
+                <View style={styles.container} >
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <View style={styles.content}>
+                            <Header 
+                                title={`Convertendo\nseus problemas`}
+                            />
+                            
+                            <View style={styles.form}>
+                                <View style={styles.buttonChooseFileContainer}>
+                                    <Button 
+                                        title={ fileName || `Escolher aquivo`}
+                                        buttonColor={theme.colors.red_secondary}
+                                        onPress={imagePickerCall}
+                                    />
+                                </View>
 
-                    <TextInput 
-                        placeholder="Como será o nome do arquivo pdf"
-                        placeholderTextColor={theme.colors.white_secondary}
-                        onChangeText={text =>  {
-                            setIsEnabled(!!file && !!newNameFile? true : false);
-                            setNewNameFile(text);
-                        }}
-                        value={newNameFile}
-                        
-                        style={styles.inputText}
-                    />
+                                <TextInput 
+                                    placeholder="Como será o nome do arquivo pdf"
+                                    placeholderTextColor={theme.colors.white_secondary}
+                                    onChangeText={text =>  {
+                                        setIsEnabled(!!file && !!newNameFile? true : false);
+                                        setNewNameFile(text);
+                                    }}
+                                    value={newNameFile}
+                                    
+                                    style={styles.inputText}
+                                />
+                            </View>
+                            
+                            <View style={styles.secondarySection}>
+                                <View style={styles.instructions}>
+                                    <Image 
+                                        source={morePdf}
+                                        style={styles.morePdf}
+                                    />
+
+                                    <Text style={styles.text}>Converta seus{"\n"}arquivos em PDF{"\n"}da melhor maneira{"\n"}possível</Text>
+                                </View>
+
+                                <View style={styles.buttonContainer}>
+                                    <Button 
+                                        title="Gerar pdf"
+                                        onPress={handleGeneratePdf}
+                                        enabled={isEnabled}
+                                        // loading={loading}
+                                    />
+                                </View>
+                            </View>
+
+                            <SimpleModal 
+                                visible={isVisibleMimeInvalid} 
+                                text={"Não é possível transformar este arquivo em pdf. Só é possível converter imagens e arquivos .docx."}
+                                closePopup={() => {
+                                    setIsVisibleMimeInvalid(false)
+                                }}
+                            />
+
+                            <SimpleModal 
+                                visible={isVisibleError} 
+                                text={`Houve um erro ao converter o arquivo para pdf. Tente novamente, se o erro persistir, tente novamente mais tarde.`}
+                                closePopup={() => {
+                                    setIsVisibleMimeError(false)
+                                }}
+                            />
+                            
+                            <SimpleModal 
+                                visible={isVisibleSuccessfull} 
+                                text={`Seu pdf acabou de ser convertido com sucesso!`}
+                                closePopup={() => {
+                                    setIsVisibleSuccessfull(false)
+                                }}
+                            />
+                        </View>
+                    </TouchableWithoutFeedback>
                 </View>
-                
-                <View style={styles.secondarySection}>
-                    <View style={styles.instructions}>
-                        <Image 
-                            source={morePdf}
-                            style={styles.morePdf}
-                        />
-
-                        <Text style={styles.text}>Converta seus{"\n"}arquivos em PDF{"\n"}da melhor maneira{"\n"}possível</Text>
-                    </View>
-
-                    <View style={styles.buttonContainer}>
-                        <Button 
-                            title="Gerar pdf"
-                            onPress={handleGeneratePdf}
-                            enabled={isEnabled}
-                            // loading={loading}
-                        />
-                    </View>
-                </View>
-
-                <SimpleModal 
-                    visible={isVisibleMimeInvalid} 
-                    text={"Não é possível transformar este arquivo em pdf. Só é possível converter imagens e arquivos .docx."}
-                    closePopup={() => {
-                        setIsVisibleMimeInvalid(false)
-                    }}
-                />
-
-                <SimpleModal 
-                    visible={isVisibleError} 
-                    text={`Houve um erro ao converter o arquivo para pdf. Tente novamente, se o erro persistir, tente novamente mais tarde.`}
-                    closePopup={() => {
-                        setIsVisibleMimeError(false)
-                    }}
-                />
-            </View>
         </>
     );
 };
 
 const styles = ScaledSheet.create({
     container: {
-        flex: 1,
+        flex: 1
+    },
+
+    content: {
         backgroundColor: theme.colors.black_shape,
+        flex: 1,
     },
 
     form: {

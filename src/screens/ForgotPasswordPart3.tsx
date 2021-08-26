@@ -47,8 +47,7 @@ export function ForgotPasswordPart2() {
     };
 
     function handleLogin() {
-        // navigation.navigate("ForgotPasswordPart3")
-        
+        navigation.navigate("ForgotPasswordPart3")
     };
 
 
@@ -68,7 +67,7 @@ export function ForgotPasswordPart2() {
                         autoCapitalize="none"
                         textContentType="password"
                         secureTextEntry={hiddenPassword}
-                        icon={0}
+                        icon={1}
                         isPassword
                         showPassword={() => setHiddenPassword(!hiddenPassword)}
                         isShow={hiddenPassword}
@@ -81,7 +80,7 @@ export function ForgotPasswordPart2() {
                         autoCapitalize="none"
                         textContentType="password"
                         secureTextEntry={hiddenConfirmPassword}
-                        icon={0}
+                        icon={1}
                         isPassword
                         showPassword={() => setHiddenConfirmPassword(!hiddenConfirmPassword)}
                         isShow={hiddenConfirmPassword}

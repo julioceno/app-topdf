@@ -19,12 +19,11 @@ import { ModalOptions } from "../components/ModalOptions";
 export function ChangeEmailConfirm() {
     const [password, setPassword] = useState("")
     const [isVisibleOptions, setIsVisibleOptions] = useState(false)
+    const [showPassword, setShowPassword] = useState<boolean>(true)
 
     const navigation = useNavigation()
 
     function handleConfirmChangeEmail() {
-        
-        
        
     };
 
@@ -44,10 +43,14 @@ export function ChangeEmailConfirm() {
                     <View style={styles.section}>
                         <Text style={styles.label}> Confirme sua senha </Text>
                             <Input 
-                                icon={0}
+                                icon={1}
+                                isPassword
                                 inputBackground={theme.colors.black}
                                 placeholder="Digite sua senha"
                                 autoCorrect={false}
+                                secureTextEntry={showPassword}
+                                showPassword={() => setShowPassword(!showPassword)}
+                                isShow={showPassword}
                                 autoCapitalize="none"
                                 textContentType="password"
                                 onChangeText={setPassword}

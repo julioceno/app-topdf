@@ -51,12 +51,10 @@ export function ForgotPasswordPart3() {
                     <Input 
                         placeholder="Código"
                         autoCorrect={false}
-                        autoCapitalize="none"
-                        autoCompleteType="cc-number"
-                        textContentType="postalCode"
-                        icon={0}
+                        icon={2}
                         onChangeText={onChangeTextEmail}
                         value={code}
+                        keyboardType = 'number-pad' 
                     />
                 </View>             
             </ContainerCredentials>

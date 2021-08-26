@@ -19,6 +19,7 @@ import { ModalOptions } from "../components/ModalOptions";
 export function ChangePasswordConfirm() {
     const [password, setPassword] = useState("")
     const [isVisibleOptions, setIsVisibleOptions] = useState(false)
+    const [showPassword, setShowPassword] = useState(true)
 
     const navigation = useNavigation()
 
@@ -42,11 +43,15 @@ export function ChangePasswordConfirm() {
                     <View style={styles.section}>
                         <Text style={styles.label}> Confirme sua senha atual</Text>
                             <Input 
-                                icon={0}
+                                icon={1}
                                 inputBackground={theme.colors.black}
                                 placeholder="Digite sua senha"
                                 autoCorrect={false}
                                 autoCapitalize="none"
+                                isPassword
+                                showPassword={() => setShowPassword(!showPassword)}
+                                isShow={showPassword}
+                                secureTextEntry={showPassword}
                                 textContentType="password"
                                 onChangeText={setPassword}
                                 value={password}

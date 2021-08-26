@@ -12,6 +12,10 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { theme } from "../global/styles/theme";
 
+import user from "../assets/user.png" 
+import padlock from "../assets/padlock.png" 
+import code from "../assets/code.png" 
+
 interface InputProps extends TextInputProps { 
     placeholder: string;        
     icon: number;
@@ -34,7 +38,9 @@ export function Input({
 }:InputProps) {
 
     const icons = [
-        require("../assets/login-account.png"),
+        user,
+        padlock,
+        code,
     ]
 
     return (

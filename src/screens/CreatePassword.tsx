@@ -56,7 +56,7 @@ export function CreatePassword() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
             <ContainerCredentials 
-                title={`Chegamos na última etapa do seu cadastro`}
+                title={`Chegamos na última etapa  \ndo seu cadastro`}
                 navigation={handleRegister}
                 loading={false}
                 isDisabled={!passwordReady}
@@ -68,7 +68,7 @@ export function CreatePassword() {
                         autoCapitalize="none"
                         textContentType="password"
                         secureTextEntry={hiddenPassword}
-                        icon={0}
+                        icon={1}
                         isPassword
                         showPassword={() => setHiddenPassword(!hiddenPassword)}
                         isShow={hiddenPassword}
@@ -81,7 +81,7 @@ export function CreatePassword() {
                         autoCapitalize="none"
                         textContentType="password"
                         secureTextEntry={hiddenConfirmPassword}
-                        icon={0}
+                        icon={1}
                         isPassword
                         showPassword={() => setHiddenConfirmPassword(!hiddenConfirmPassword)}
                         isShow={hiddenConfirmPassword}
